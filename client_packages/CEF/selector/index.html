@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../assets/js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="../assets/js/vue.js"></script>
+    <script src="./main.js"></script>
+
+    <style>
+        .card {
+            margin-bottom: 20px; /* Ajusta el margen inferior de los cards según tus preferencias */
+        }
+
+        html body {
+            background: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="margin-top: 13%;" id="app">
+        <div class="col-md-6 offset-md-3 text-center mb-4">
+            <img src="../assets/SARP.png" width="250px" class="mx-auto d-block" alt="Imagen centrada horizontalmente">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card shadow text-center my-div mx-auto">
+                    <div class="card-body">
+                        <h1 class="text-center" style="color: #5DB6E5;"><strong>SELECCIONA TU PERSONAJE</strong></h1>
+                        <br>
+
+                        <div id="personajes">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card shadow text-center my-div mx-auto">
+                    <div class="card-body">
+                        <p>nombre: {{ nombre }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    const app = new Vue({
+        el: "#app",
+        data: {
+            nombre: "",
+        },
+        methods: {
+            iniciar: async function () {
+                const obj = {
+                    usuario: this.usuario.toLowerCase(),
+                    contrasena: this.contrasena,
+                }
+
+                mp.trigger('cliente:iniciarSesion', JSON.stringify(obj));
+            },
+
+            mostrarError(texto) {
+                this.errorMensaje = texto;
+                setTimeout(() => {
+                    this.errorMensaje = "";
+                }, 5000);
+            },
+
+            mostrarInformacion(info) {
+                this.nombre = info;
+            }
+        }
+    })
+</script>

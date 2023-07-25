@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="../assets/js/vue.js"></script>
+</head>
+
+<body>
+    <div class="container" style="margin-top: 13%;" id="app">
+        <div class="col-md-6 offset-md-3 text-center mb-4">
+            <img src="../assets/SARP.png" width="250px" class="mx-auto d-block" alt="Imagen centrada horizontalmente">
+        </div>
+
+        <div class="card shadow col-md-6 offset-md-3 text-center my-div mx-auto" style="width: 35%;">
+            <div class="card-body">
+                <h1 class="text-center" style="color: #5DB6E5;"><strong>¡BIENVENID@ DE NUEVO!</strong></h1>
+                <br>
+                <div class="alert alert-danger incorrect-info" role="alert" v-if="errorMensaje">
+                    {{ errorMensaje }}
+                </div>
+
+                <form action="" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="usuario" v-model="usuario"
+                            placeholder="Nombre de usuario">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" id="contrasena" v-model="contrasena"
+                            placeholder="contraseña">
+                    </div>
+                    <input type="submit" value="Iniciar sesión" class="btn btn-primary btn-lg btn-block mb-3"
+                        id="loginBtn" @click="iniciar">
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                usuario: "",
+                contrasena: "",
+                errorMensaje: "",
+            },
+            methods: {
+                iniciar: async function () {
+                    const obj = {
+                        usuario: this.usuario.toLowerCase(),
+                        contrasena: this.contrasena,
+                    }
+
+                    mp.trigger('cliente:iniciarSesion', JSON.stringify(obj));
+                },
+
+                mostrarError(texto) {
+                    this.errorMensaje = texto;
+                    setTimeout(() => {
+                        this.errorMensaje = "";
+                    }, 5000);
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
