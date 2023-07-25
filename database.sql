@@ -1,68 +1,32 @@
-DROP TABLE IF EXISTS `usuarios`;
-CREATE TABLE `usuarios` (
-    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `slots_pj` INT(11) NOT NULL DEFAULT 3,
-    `usuario` VARCHAR(50) NOT NULL,
-    `contrasena` VARCHAR(60) NOT NULL,
-    `correo` VARCHAR(150) NOT NULL,
-    `fechaRegistro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ultimoActivo` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `socialClub` VARCHAR(20) NOT NULL,
-    `socialClubId` VARCHAR(255) NOT NULL,
-    `ip` VARCHAR(85) NOT NULL,
-    `ip_registro` varchar(85) not null,
-    `pin_seguridad` VARCHAR(10) not null,
-    `selector_preferencia` int(1) not null,
-);
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versión del servidor:         10.4.28-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             12.5.0.6677
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `personajes`;
-CREATE TABLE `personajes` (
-    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `idusuario` INT(11) NOT NULL,
-    `n_pj` INT(11) NOT NULL,
-    `nombre` VARCHAR(60) NOT NULL,
-    `sex` INT(11) NOT NULL,
-    `vida` INT(11) NOT NULL DEFAULT 100,
-    `armadura` INT(11) NOT NULL DEFAULT 0,
-    `numero_tlf` VARCHAR(11) NOT NULL,
-    `fecha_registro` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `facciones` TEXT,
-    `faccion_principal` INT(11) NOT NULL,
-    `rangos_facciones` TEXT,
-    `rango_principal` INT(11) NOT NULL,
-    `dinero` VARCHAR(255) NOT NULL DEFAULT '0',
-    `banco` VARCHAR(255) NOT NULL DEFAULT '0',
-    `pay` VARCHAR(255) NOT NULL DEFAULT '0',
-    `ultima_conexion` DATETIME NOT NULL,
-    `ultima_ip` VARCHAR(40) NOT NULL,
-    `online` INT(1) NOT NULL DEFAULT 0,
-    `mama` INT(11) NOT NULL,
-    `papa` INT(11) NOT NULL,
-    `mezcla_padres` FLOAT DEFAULT 0.5,
-    `mezcla_piel` FLOAT NOT NULL DEFAULT 0.5,
-    `piel_mama` INT(11) DEFAULT NULL,
-    `piel_papa` INT(11) DEFAULT NULL,
-    `color_ojos` INT(11) NOT NULL,
-    `pelo` INT(11) NOT NULL,
-    `color_pelo` INT(11) NOT NULL,
-    `color_sec_pelo` INT(11) NOT NULL,
-    `barba` INT(11) NOT NULL,
-    `color_barba` INT(11) NOT NULL,
-    `caracteristicas_cara` TEXT,
-    `manchas` TEXT,
-    `vello_facial` TEXT,
-    `cejas` TEXT,
-    `envejecimiento` TEXT,
-    `constituir` TEXT,
-    `rubor` TEXT,
-    `tez` TEXT,
-    `dano_del_sol` TEXT,
-    `lapiz_labial` TEXT,
-    `lunarespecas` TEXT,
-    `pelo_pecho` TEXT,
-    `manchas_corporales` TEXT,
-    `int_manchas_corporales` INT(11) NOT NULL DEFAULT 0,
-    `posicion` TEXT,
-    `rotacion` TEXT,
-    `dimension` INT(11) NOT NULL
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+-- Volcando datos para la tabla sarp-ragemp.personajes: ~2 rows (aproximadamente)
+DELETE FROM `personajes`;
+INSERT INTO `personajes` (`id`, `idusuario`, `n_pj`, `nombre`, `sex`, `vida`, `armadura`, `numero_tlf`, `fecha_registro`, `facciones`, `faccion_principal`, `rangos_facciones`, `rango_principal`, `dinero`, `banco`, `pay`, `ultima_conexion`, `ultima_ip`, `online`, `mama`, `papa`, `mezcla_padres`, `mezcla_piel`, `piel_mama`, `piel_papa`, `color_ojos`, `pelo`, `color_pelo`, `color_sec_pelo`, `barba`, `color_barba`, `caracteristicas_cara`, `manchas`, `vello_facial`, `cejas`, `envejecimiento`, `constituir`, `rubor`, `tez`, `dano_del_sol`, `lapiz_labial`, `lunarespecas`, `pelo_pecho`, `manchas_corporales`, `int_manchas_corporales`, `posicion`, `rotacion`, `dimension`) VALUES
+	(1, 1, 1, 'Max Jones', 0, 100, 0, 'undefined', '2023-07-09 05:26:55', NULL, 0, NULL, 0, '0', '0', '0', '0000-00-00 00:00:00', 'undefined', 0, 0, 0, 0.5, 0.5, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'undefined', NULL, 0),
+	(2, 1, 1, 'Jayden Wilson', 0, 100, 0, 'undefined', '2023-07-10 19:37:36', NULL, 0, NULL, 0, '0', '0', '0', '0000-00-00 00:00:00', 'undefined', 0, 0, 0, 0.5, 0.5, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0);
+
+-- Volcando datos para la tabla sarp-ragemp.usuarios: ~1 rows (aproximadamente)
+DELETE FROM `usuarios`;
+INSERT INTO `usuarios` (`id`, `slots_pj`, `usuario`, `contrasena`, `correo`, `fechaRegistro`, `ultimoActivo`, `socialClub`, `socialClubId`, `ip`, `ip_registro`, `pin_seguridad`, `selector_preferencia`) VALUES
+	(1, 3, 'Zexxno', '1LVl8OIa8Y+NBVOYO4AXwA==', 'zexxno@sarp.es', '2023-07-09 02:20:47', '2023-07-13 16:43:57', 'EdumaximusWar', 'undefined', '127.0.0.1', 'undefined', 'undefined', 1);
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
