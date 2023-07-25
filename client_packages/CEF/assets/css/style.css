@@ -1,3 +1,203 @@
-html body {
-    background: transparent
+body,
+html {
+  font-family: 'Noto Sans', sans-serif;
+  /* Cambiamos la fuente de letra para todo el documento */
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+}
+
+a {
+  color: #333;
+  /* Cambia el color de los enlaces a otro color si lo deseas */
+  text-decoration: none;
+  /* Quita el subrayado del enlace */
+}
+
+a:hover {
+  color: #555;
+  /* Cambia el color del enlace al pasar el mouse por encima si lo deseas */
+}
+
+.login-container {
+  border-radius: 10px;
+  /* Modificamos el borde a 10px */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  /* Cambiamos el valor de desplazamiento horizontal, vertical, tamaño y opacidad del sombreado */
+  background-color: #fff;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+}
+
+.login-form {
+  padding: 30px;
+  width: 50%;
+  /* Ancho del formulario ajustado al 50% */
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Noto Sans', sans-serif;
+  /* Cambiamos la fuente de letra para el título */
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: bold;
+  width: 100px;
+}
+
+.form-group input {
+  border: none;
+  padding: 5px;
+  flex: 1;
+  outline: none;
+}
+
+.form-group .icon {
+  font-size: 18px;
+  margin-left: 10px;
+  color: #aaa;
+}
+
+.form-check {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-check label {
+  flex: 1;
+}
+
+.btn-login {
+  border-radius: 6px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btn-login:hover {
+  background-color: #0056b3;
+}
+
+/* Eliminar el resaltado azul al hacer clic */
+.form-group input:focus {
+  outline: none;
+  box-shadow: none;
+  /* Agregamos esta línea para eliminar el sombreado azul */
+}
+
+.photo-container {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.centered-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+  /* Asegura que el contenido esté sobre la capa negra */
+  width: 100%;
+  /* Asegura que el contenido ocupe todo el ancho de la foto */
+  padding: 20px;
+  /* Agrega un espaciado al contenido */
+}
+
+.logo-container img {
+  width: 220px;
+  /* Ajusta el tamaño del logo según tus necesidades */
+  height: auto;
+}
+
+.logo-text {
+  font-size: 16px;
+  margin-top: 10px;
+  /* Ajusta el espacio entre el logo y el texto */
+}
+
+.above-photo {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  z-index: 2;
+  /* Asegura que el texto esté sobre la capa negra */
+}
+
+/* Estilos para el fondo negro semi-transparente sobre la foto */
+.black-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Agregamos un fondo negro con opacidad */
+  z-index: 1;
+  /* Asegura que la capa negra esté sobre la foto */
+}
+
+.create-account {
+  text-align: center;
+  font-family: 'Noto Sans', sans-serif;
+  /* Cambiamos la fuente de letra para el texto "Crear una nueva cuenta" */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    /* Opcional: añade un efecto de deslizamiento hacia arriba */
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicamos la animación a la clase "fadeInAnimation" */
+.fadeInAnimation {
+  animation: fadeIn 1s ease;
 }
