@@ -7,15 +7,15 @@ mp.events.addCommand('selmetodopj', async (player, metodo) => {
 
     switch (metodo) {
         case "chat":
-            con.query(`UPDATE usuarios SET selector_preferencia = '0' WHERE id = '${player.guid}'`);
+            con.query(`UPDATE usuarios SET selector_preferencia = '1' WHERE id = '${player.guid}'`);
             player.outputChatBox(`!{${colores.verde}}Has establecido el selector de personajes mediante CHAT. Espera un momento.`);
-            await abrirMetodoSelPj(1);
+            await abrirMetodoSelPj(player, 1);
             break;
 
         case "cef":
-            con.query(`UPDATE usuarios SET selector_preferencia = '1' WHERE id = '${player.guid}'`);
+            con.query(`UPDATE usuarios SET selector_preferencia = '2' WHERE id = '${player.guid}'`);
             player.outputChatBox(`!{${colores.verde}}Has establecido el selector de personajes mediante CEF. Espera un momento.`);
-            await abrirMetodoSelPj(2);
+            await abrirMetodoSelPj(player, 2);
             break;
 
         default:
@@ -23,32 +23,30 @@ mp.events.addCommand('selmetodopj', async (player, metodo) => {
     }
 })
 
-async function abrirMetodoSelPj(estado) {
+async function abrirMetodoSelPj(player, estado) {
     switch (estado) {
         case 1:
-            setTimeout(() => {
-                player.call('cliente:abrirSelector');
-            }, 2000);
+            const result = await con.query(`SELECT * FROM personajes WHERE idusuario = ${player.guid}`);
+            if (!result[0]) {
+                player.outputChatBox(`!{red}No tienes personajes creados, crea uno en el PCU para seleccionarlo.`);
+                player.outputChatBox(`!{red}Serás expulsado automáticamente en un (1) minuto. ¡Vuelve pronto!`);
+                setTimeout(() => {
+                    player.kick();
+                }, 60000);
+                return;
+            } else {
+                player.outputChatBox('!{#A0F05B}--------------- TUS PERSONAJES - ELIGE UNO ---------------');
+                result.forEach((row) => {
+                    player.outputChatBox(`!{yellow}(GUID: ${row.id}) !{white}${row.nombre}`);
+                });
+                player.outputChatBox(`!{${colores.azul}}[INFO]: Escribe /seleccionarpj [GUID] para escoger un personaje.`);
+            }
             break;
 
         case 2:
-            setTimeout(async () => {
-
-                const result = await misc.query(`SELECT * FROM personajes WHERE idusuario = ${player.guid}`);
-                if (!result[0]) {
-                    player.outputChatBox(`!{red}No tienes personajes creados, crea uno en el PCU para seleccionarlo.`);
-                    player.outputChatBox(`!{red}Serás expulsado automáticamente en un (1) minuto. ¡Vuelve pronto!`);
-                    setTimeout(() => {
-                        player.kick();
-                    }, 60000);
-                    return;
-                } else {
-                    player.outputChatBox('!{#A0F05B}--------------- TUS PERSONAJES - ELIGE UNO ---------------');
-                    result.forEach((row) => {
-                        player.outputChatBox(`!{yellow}(GUID: ${row.id}) !{white}${row.nombre}`);
-                    });
-                    player.outputChatBox(`!{${colores.azul}}[INFO]: Escribe /seleccionarpj [GUID] para escoger un personaje.`);
-                }
+            setTimeout((player) => {
+                player.call('congelarUsuarioLocal', [2]);
+                player.call('cliente:abrirSelector');
             }, 2000);
             break;
 
@@ -100,7 +98,7 @@ mp.events.addCommand('seleccionarpj', async (player, guid) => {
     (d[0].posicion === "") ? player.position = new mp.Vector3(-17.91838836669922, 11.694050788879395, 71.7161941528320) : player.position = new mp.Vector3(JSON.parse(d[0].posicion));
     player.dimension = d[0].dimension;
     player.heading = d[0].heading;
-    player.call('congelarUsuarioLocal');
+    player.call('congelarUsuarioLocal', [2]);
 
     player.outputChatBox(`!{${colores.verde}}Estás jugando con ${d[0].nombre}`);
 });

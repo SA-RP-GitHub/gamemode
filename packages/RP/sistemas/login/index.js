@@ -55,26 +55,21 @@ mp.events.add('servidor:iniciarSesion', async (player, obj) => {
 
     lobby(player);
 
-    (d[0].selector_preferencia == 1) ? await abrirMetodoSelPj(player, 1) : await abrirMetodoSelPj(player, 2);
+    if (d[0].selector_preferencia == 1) {
+        await abrirMetodoSelPj(player, 1);
+    } else if (d[0].selector_preferencia == 2) {
+        await abrirMetodoSelPj(player, 2);
+    }
 });
 
 async function abrirMetodoSelPj(player, estado) {
     switch (estado) {
         case 1:
             player.call('cerrarCef');
-            player.outputChatBox(`!{${colores.azul}}[INFO]: !{white}Muévete hasta la mesa que tienes enfrente y presiona la tecla !{${colores.azul}}E !{white} para escoger un personaje y empezar a rolear.`);
-            break;
-
-        case 2:
-            player.call('cerrarCef');
             setTimeout(async () => {
                 const result = await con.query(`SELECT * FROM personajes WHERE idusuario = ${player.guid}`);
                 if (!result[0]) {
                     player.outputChatBox(`!{red}No tienes personajes creados, crea uno en el PCU para seleccionarlo.`);
-                    player.outputChatBox(`!{red}Serás expulsado automáticamente en un (1) minuto. ¡Vuelve pronto!`);
-                    setTimeout(() => {
-                        player.kick();
-                    }, 60000);
                     return;
                 } else {
                     player.outputChatBox('!{#A0F05B}--------------- TUS PERSONAJES - ELIGE UNO ---------------');
@@ -85,12 +80,21 @@ async function abrirMetodoSelPj(player, estado) {
                 }
             }, 500);
             break;
+
+        case 2:
+            player.call('cerrarCef');
+            player.outputChatBox(`!{${colores.azul}}[INFO]: !{white}Muévete hasta la mesa que tienes enfrente y presiona la tecla !{${colores.azul}}E !{white} para escoger un personaje y empezar a rolear.`);
+            player.call('congelarUsuarioLocal', [2]);
+            break;
+            
         default:
             break;
     }
 }
 
+let colshapeSelector, marcaSelector, labelSelector;
 function lobby(player) {
+    player.call('congelarUsuarioLocal', [1]);
     player.dimension = player.guid;
     player.position = new mp.Vector3(402.7816162109375, -997.0333862304688, -99.00023651123047);
     player.heading = -179.58746337890625;
@@ -109,4 +113,28 @@ function lobby(player) {
             alpha: 255,
             dimension: player.guid,
         });
+
+    colshapeSelector = mp.colshapes.newSphere(402.02166748046875, -1002.6541748046875, -99.00403594970703, 1, player.guid);
+    marcaSelector = mp.markers.new(0, new mp.Vector3(402.02166748046875, -1002.6541748046875, -99.60403594970703), 0.5,
+        {
+            color: [255, 243, 51, 255],
+            visible: true,
+            dimension: player.guid
+        });
+
+    labelSelector = mp.labels.new("Presiona la tecla ~b~'E' ~w~ para abrir el selector.", new mp.Vector3(402.02166748046875, -1002.6541748046875, -99.00403594970703),
+        {
+            los: false,
+            font: 4,
+            drawDistance: 100,
+            dimension: player.guid
+        });
 }
+
+function playerEnterColshapeHandler(player, shape) {
+    if (shape == colshapeSelector) {
+        console.log(`${player.name} entered the colshape`);
+    }
+}
+
+mp.events.add("playerEnterColshape", playerEnterColshapeHandler);

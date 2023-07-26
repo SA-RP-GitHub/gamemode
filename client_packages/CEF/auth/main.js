@@ -12,6 +12,7 @@ mp.events.add('cliente:abrirLogin', () => {
 mp.events.add('cliente:avisosLogin', (handle, usuario) => {
     switch (handle) {
         case "exito":
+            mp.events.call('cerrarCef');
             mp.gui.chat.show(true);
             mp.gui.cursor.show(false, false);
             
