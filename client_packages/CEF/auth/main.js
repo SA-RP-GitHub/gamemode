@@ -17,7 +17,7 @@ mp.events.add('cliente:avisosLogin', (handle, usuario) => {
             
             break;
         case "usuariovacio":
-            cef.injectCef(`app.mostrarError("Error: El campo de usuario no puede estar vacio.");`);
+            cef.injectCef(`app.mostrarError("Error: El campo de usuario no puede estar vacío.");`);
             break;
 
         case "contrasenavacia":
@@ -25,11 +25,11 @@ mp.events.add('cliente:avisosLogin', (handle, usuario) => {
             break;
 
         case "cuentainexistente":
-            cef.injectCef(`app.mostrarError("Error: Esta cuenta con el usuario <span style="color: blue;">${usuario}</span> no existe o no pertenece a nuestra base de datos.");`);
+            cef.injectCef(`app.mostrarError("Error: El usuario introducido no se encuentra registrado.");`);
             break;
 
         case "contrasenaincorrecta":
-            cef.injectCef(`app.mostrarError("Error: Las credenciales introducidas son icorrectas.");`);
+            cef.injectCef(`app.mostrarError("Error: Las credenciales introducidas son incorrectas.");`);
             break;
 
         default:
