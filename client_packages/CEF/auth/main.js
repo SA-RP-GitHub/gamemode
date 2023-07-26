@@ -6,7 +6,7 @@ mp.events.add('cliente:iniciarSesion', (obj) => {
 });
 
 mp.events.add('cliente:abrirLogin', () => {
-    cef.abrirCef("package://CEF/auth/index.html")
+    cef.abrirCef("package://CEF/auth/acceder.html")
 })
 
 mp.events.add('cliente:avisosLogin', (handle, usuario) => {
