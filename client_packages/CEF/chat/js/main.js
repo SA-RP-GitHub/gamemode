@@ -1,9 +1,9 @@
 const settings = {
-    timeStamp: false,
+    timeStamp: true,
     removeInputColors: false,
-    characterCount: false,
-    lowerCaseCommand: false,
-    scrollbar: false,
+    characterCount: true,
+    lowerCaseCommand: true,
+    scrollbar: true,
     maxLength: 255
 }
 
@@ -17,14 +17,14 @@ let inputHistoryPosition = -1;
 let inputCache = "";
 
 const chatAPI = {
-        clear: () => {
-            MESSAGE_LIST.innerHTML = "";
-        },
+    clear: () => {
+        MESSAGE_LIST.innerHTML = "";
+    },
 
-        push: (text) => {
-                if (text.length < 1) return;
+    push: (text) => {
+        if(text.length < 1) return;
 
-                MESSAGE_LIST.innerHTML += `
+        MESSAGE_LIST.innerHTML += `
         <div class="message stroke">
             ${settings.timeStamp ? `<span class="timeStamp">${getDateString()}</span>` : ""}
             <span>${text}</span>
