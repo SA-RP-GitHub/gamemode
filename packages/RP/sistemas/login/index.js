@@ -11,6 +11,8 @@ function hashPassword(str) {
     return encrypted;
 }
 
+// Parte login
+
 mp.events.add('playerReady', (player) => {
     player.call('cliente:abrirLogin');
 })
@@ -23,16 +25,16 @@ mp.events.add('servidor:iniciarSesion', async (player, obj) => {
 
     const d = await con.query(`SELECT * FROM usuarios WHERE usuario = '${usuario}'`);
 
-    if (usuario == "") {
+    if (!usuario) {
         return player.call('cliente:avisosLogin', ["usuariovacio"]);
     }
 
-    if (contrasena2 == "") {
+    if (!contrasena2) {
         return player.call('cliente:avisosLogin', ["contrasenavacia"]);
     }
 
     if (!d[0]) {
-        return player.call('cliente:avisosLogin', ["cuentainexistente", usuario]);
+        return player.call('cliente:avisosLogin', ["cuentainexistente"]);
     }
 
     if (d[0].contrasena !== contrasena) {
@@ -86,11 +88,60 @@ async function abrirMetodoSelPj(player, estado) {
             player.outputChatBox(`!{${colores.azul}}[INFO]: !{white}Muévete hasta la mesa que tienes enfrente y presiona la tecla !{${colores.azul}}E !{white} para escoger un personaje y empezar a rolear.`);
             player.call('congelarUsuarioLocal', [2]);
             break;
-            
+
         default:
             break;
     }
 }
+
+// Parte registro
+
+mp.events.add('servidor:registrarCuenta', async (player, obj) => {
+    const data = JSON.parse(obj);
+    const usuario = data.usuario;
+    const correo = data.correo;
+    const contrasena = data.contrasena;
+    const contrasena2 = data.contrasena2;
+    const contrasenaEncriptada = hashPassword(contrasena);
+    const ipEncriptada = hashPassword(player.ip);
+    const correoEncriptado = hashPassword(correo);
+
+    const d = await con.query(`SELECT * FROM usuarios WHERE usuario = '${usuario}' OR correo = '${correo}'`);
+
+    if (!usuario) {
+        return player.call('cliente:avisosRegistro', ["usuariovacio"]);
+    }
+
+    if (!correo) {
+        return player.call('cliente:avisosRegistro', ["correovacio"]);
+    }
+
+    if (!contrasena) {
+        return player.call('cliente:avisosRegistro', ["contrasenavacia"]);
+    }
+
+    if (!contrasena2) {
+        return player.call('cliente:avisosRegistro', ["contrasena2vacia"]);
+    }
+
+    if (d.length > 0) {
+        return player.call('cliente:avisosRegistro', ["usuarioexiste"]);
+    }
+
+    if (contrasena !== contrasena2) {
+        return player.call('cliente:avisosRegistro', ["contrasenasnocoinciden"]);
+    }
+
+    if (contrasena.length < 6) {
+        return player.call('cliente:avisosRegistro', ["contrasenacorta"]);
+    }
+
+    con.query(`INSERT INTO usuarios (usuario, contrasena, correo, fechaRegistro, socialClub, socialClubId, ip, ip_registro) VALUES ('${usuario}', '${contrasenaEncriptada}', '${correo}', NOW(), '${player.socialClub}', '${player.serial}', '${ipEncriptada}', '${ipEncriptada}')`);
+
+    console.log('registrado!');
+});
+
+// Parte lobby
 
 let colshapeSelector, marcaSelector, labelSelector;
 function lobby(player) {
