@@ -141,6 +141,14 @@ mp.events.add('servidor:registrarCuenta', async (player, obj) => {
     console.log('registrado!');
 });
 
+// Parte recordar contraseña
+mp.events.add('servidor:recuperarContrasena', (player, obj) => {
+    const data = JSON.parse(obj);
+    const correo = data.correo;
+
+    // condiciones o enviar el correo
+});
+
 // Parte lobby
 
 let colshapeSelector, marcaSelector, labelSelector;

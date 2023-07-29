@@ -82,3 +82,7 @@ mp.events.add('cliente:avisosRegistro', (handle) => {
             break;
     }
 })
+
+mp.events.add('cliente:recuperarContrasena', (obj) => {
+    mp.events.callRemote("servidor:recuperarContrasena", (obj));
+})
