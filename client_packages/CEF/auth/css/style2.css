@@ -1,0 +1,89 @@
+body,
+html {
+  font-family: 'Noto Sans', sans-serif;
+  /* Cambiamos la fuente de letra para todo el documento */
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+}
+
+.container {
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    width: 900px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.columna-izquierda,
+.columna-derecha {
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+    padding: 10px;
+    max-width: 50%;
+}
+
+.columna-izquierda {
+    border-right: 1px solid #ccc;
+}
+
+.columna-derecha {
+    border-left: 1px solid #ccc;
+}
+
+.btn {
+    border-radius: 6px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80%;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+  }
+
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+    }
+    .columna-izquierda,
+    .columna-derecha {
+        width: 100%;
+        border: none;
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+      /* Opcional: añade un efecto de deslizamiento hacia arriba */
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Aplicamos la animación a la clase "fadeInAnimation" */
+  .fadeInAnimation {
+    animation: fadeIn 1s ease;
+  }

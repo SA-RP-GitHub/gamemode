@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./css/style2.css">
+
+  <script src="../assets/js/vue.js"></script>
+</head>
+
+<body>
+  <div class="container fadeInAnimation">
+    <h2><b>Tipo de selector</b></h2>
+    <p style="margin-bottom: 3%;">A continuación deberás escoger cómo quieres seguir el proceso de selección de personaje.</p>
+    <div class="columna-izquierda">
+      <h3>Por interfaz</h3>
+      <p>Esta opción es ideal para equipos que pueden soportar la carta de intarfaces de forma rápida.</p>
+      <input type="submit" value="Continuar por interfaz" id="loginBtn" @click="iniciar" class="btn">
+    </div>
+    <div class="columna-derecha">
+      <h3>Por comandos</h3>
+      <p>Esta opción es ideal para equipos que no pueden soportar la carta de intarfaces de forma rápida.</p>
+      <input type="submit" value="Continuar por comandos" id="loginBtn2" @click="iniciar" class="btn">
+    </div>
+  </div>
+</body>
+
+</html>
