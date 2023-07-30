@@ -15,20 +15,41 @@
 </head>
 
 <body>
-  <div class="container fadeInAnimation">
-    <h2><b>Tipo de selector</b></h2>
-    <p style="margin-bottom: 3%;">A continuación deberás escoger cómo quieres seguir el proceso de selección de personaje.</p>
+  <div class="container fadeInAnimation" id="app">
+    <h2><b>¿Interfaz o chat?</b></h2>
+    <p style="margin-bottom: 3%;">¿Usar interfaz o el chat para los sistemas? A continuación las ventajas y desventajas
+      de cada uno. Puedes cambiar esta configuración en cualquier momento desde el menú de ajustes en el juego o en el PCU.
+    </p>
     <div class="columna-izquierda">
-      <h3>Por interfaz</h3>
-      <p>Esta opción es ideal para equipos que pueden soportar la carta de intarfaces de forma rápida.</p>
-      <input type="submit" value="Continuar por interfaz" id="loginBtn" @click="iniciar" class="btn">
+      <h3>Interfaz</h3>
+      <p>Esta opción es ideal para equipos que <strong>SÍ</strong> soportan la carga de intarfaces de forma rápida.</p>
+      <span style="color: red;">(se recomienda tener un PC óptimo)</span>
+      <input type="submit" value="Continuar con interfaces" id="loginBtn" onclick="seleccion(1)" class="btn">
     </div>
     <div class="columna-derecha">
-      <h3>Por comandos</h3>
-      <p>Esta opción es ideal para equipos que no pueden soportar la carta de intarfaces de forma rápida.</p>
-      <input type="submit" value="Continuar por comandos" id="loginBtn2" @click="iniciar" class="btn">
+      <h3>Chat/comandos</h3>
+      <p>Esta opción es ideal para equipos que <strong>NO</strong> soportan la carta de intarfaces de forma rápida.</p>
+      <span style="color: red;">(para PC con características estándar)</span>
+      <input type="submit" value="Continuar con comandos" id="loginBtn2" onclick="seleccion(2)" class="btn">
     </div>
   </div>
 </body>
 
 </html>
+
+<script>
+  function seleccion(handle) {
+    switch (handle) {
+      case 1:
+        mp.trigger("cliente:escogerPreferencia", 1);
+        break;
+
+      case 2:
+        mp.trigger("cliente:escogerPreferencia", 2);
+        break;
+
+      default:
+        break;
+    }
+  }
+</script>

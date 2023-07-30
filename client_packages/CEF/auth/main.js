@@ -1,25 +1,23 @@
 const cef = require('./CEF/cef.js');
 var loginCEF, loginCAM;
 
+mp.events.add('cliente:abrirLogin', () => {
+    cef.abrirCef("package://CEF/auth/acceder.html");
+});
+
+mp.events.add('cliente:abrirSelectorPreferencia', () => {
+    cef.abrirCef("package://CEF/auth/tipo-selector.html");
+});
+
+// Parte login
 mp.events.add('cliente:iniciarSesion', (obj) => {
     mp.events.callRemote('servidor:iniciarSesion', obj)
 });
 
-mp.events.add('cliente:registrarCuenta', (obj) => {
-    mp.events.callRemote('servidor:registrarCuenta', obj)
-});
-
-mp.events.add('cliente:abrirLogin', () => {
-    cef.abrirCef("package://CEF/auth/acceder.html")
-})
-
-mp.events.add('cliente:avisosLogin', (handle) => {
+mp.events.add('cliente:avisosLogin', (handle, preferencia) => {
     switch (handle) {
         case "exito":
-            mp.events.call('cerrarCef');
-            mp.gui.chat.show(true);
-            mp.gui.cursor.show(false, false);
-
+            (preferencia == 0) ? mp.events.call('cliente:abrirSelectorPreferencia') : mp.events.call('cerrarCef');
             break;
         case "usuariovacio":
             cef.injectCef(`app.mostrarError("Error: El campo de usuario no puede estar vacío.");`);
@@ -40,6 +38,11 @@ mp.events.add('cliente:avisosLogin', (handle) => {
         default:
             break;
     }
+});
+
+// Parte registro
+mp.events.add('cliente:registrarCuenta', (obj) => {
+    mp.events.callRemote('servidor:registrarCuenta', obj)
 });
 
 mp.events.add('cliente:avisosRegistro', (handle) => {
@@ -74,7 +77,7 @@ mp.events.add('cliente:avisosRegistro', (handle) => {
             cef.injectCef(`app.mostrarError("Error: Las contraseñas no coindicen, verifícalas.");`);
             break;
 
-            case "contrasenacorta":
+        case "contrasenacorta":
             cef.injectCef(`app.mostrarError("Error: La contraseña debe contener 6 carácteres como mínimo.");`);
             break;
 
@@ -83,6 +86,23 @@ mp.events.add('cliente:avisosRegistro', (handle) => {
     }
 })
 
+// Parte recuperar contraseña
 mp.events.add('cliente:recuperarContrasena', (obj) => {
     mp.events.callRemote("servidor:recuperarContrasena", (obj));
+})
+
+// Parte tipo de selector
+mp.events.add('cliente:escogerPreferencia', (handle) => {
+    switch (handle) {
+        case 1:
+            mp.events.callRemote('servidor:escogerPreferencia', 1);
+            break;
+
+        case 2:
+            mp.events.callRemote('servidor:escogerPreferencia', 2);
+            break;
+
+        default:
+            break;
+    }
 })

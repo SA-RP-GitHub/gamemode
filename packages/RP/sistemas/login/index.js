@@ -41,9 +41,7 @@ mp.events.add('servidor:iniciarSesion', async (player, obj) => {
         return player.call('cliente:avisosLogin', ["contrasenaincorrecta"]);
     }
 
-    player.call('cliente:avisosLogin', ["exito"]);
-
-    if (d[0].selector_preferencia == 0) player.outputChatBox(`!{#036ffc}[INFO]: !{white}Por favor, elige como quieres seleccionar el personaje con el comando !{white}/selmetodopj`) + player.outputChatBox(`• Chat: Selecciona tu personaje mediante comando (mejor rendimiento)`) + player.outputChatBox(`• CEF: Selecciona tu personaje mediante una gráfica (peor rendimiento)`);
+    player.call('cliente:avisosLogin', ["exito", d[0].cef_chat_preferencia]);
 
     player.guid = d[0].id;
     player.setVariable("sesionIniciada", true);
@@ -54,45 +52,7 @@ mp.events.add('servidor:iniciarSesion', async (player, obj) => {
     } catch (error) {
         console.log(error);
     }
-
-    lobby(player);
-
-    if (d[0].selector_preferencia == 1) {
-        await abrirMetodoSelPj(player, 1);
-    } else if (d[0].selector_preferencia == 2) {
-        await abrirMetodoSelPj(player, 2);
-    }
 });
-
-async function abrirMetodoSelPj(player, estado) {
-    switch (estado) {
-        case 1:
-            player.call('cerrarCef');
-            setTimeout(async () => {
-                const result = await con.query(`SELECT * FROM personajes WHERE idusuario = ${player.guid}`);
-                if (!result[0]) {
-                    player.outputChatBox(`!{red}No tienes personajes creados, crea uno en el PCU para seleccionarlo.`);
-                    return;
-                } else {
-                    player.outputChatBox('!{#A0F05B}--------------- TUS PERSONAJES - ELIGE UNO ---------------');
-                    result.forEach((row) => {
-                        player.outputChatBox(`!{yellow}(GUID: ${row.id}) !{white}${row.nombre}`);
-                    });
-                    player.outputChatBox(`!{${colores.azul}}[INFO]: Escribe !{white}/seleccionarpj !{${colores.azul}}para escoger un personaje.`);
-                }
-            }, 500);
-            break;
-
-        case 2:
-            player.call('cerrarCef');
-            player.outputChatBox(`!{${colores.azul}}[INFO]: !{white}Muévete hasta la mesa que tienes enfrente y presiona la tecla !{${colores.azul}}E !{white} para escoger un personaje y empezar a rolear.`);
-            player.call('congelarUsuarioLocal', [2]);
-            break;
-
-        default:
-            break;
-    }
-}
 
 // Parte registro
 
@@ -149,51 +109,32 @@ mp.events.add('servidor:recuperarContrasena', (player, obj) => {
     // condiciones o enviar el correo
 });
 
-// Parte lobby
+// Parte tipo de selector
+mp.events.add('servidor:escogerPreferencia', async (player, handle) => {
+    switch (handle) {
+        case 1:
+            try {
+                await con.query(`UPDATE usuarios SET cef_chat_preferencia = '1' WHERE id = '${player.guid}'`);
+            } catch (error) {
+                console.log(error);
+            }
 
-let colshapeSelector, marcaSelector, labelSelector;
-function lobby(player) {
-    player.call('congelarUsuarioLocal', [1]);
-    player.dimension = player.guid;
-    player.position = new mp.Vector3(402.7816162109375, -997.0333862304688, -99.00023651123047);
-    player.heading = -179.58746337890625;
-    player.model = "csb_mp_agent14";
+            player.call('cerrarCef');
+            player.outputChatBox(`Aquí hay que hacer el tema del selector de los personajes`)
+            break;
 
-    mp.objects.new('apa_prop_apa_cutscene_doorb', new mp.Vector3(404.5050964355469, -996.643408203125, -99.00403594970703),
-        {
-            rotation: new mp.Vector3(0, 0, -90.26335144042969),
-            alpha: 255,
-            dimension: player.guid,
-        });
+        case 2:
+            try {
+                await con.query(`UPDATE usuarios SET cef_chat_preferencia = '2' WHERE id = '${player.guid}'`);
+            } catch (error) {
+                console.log(error);
+            }
 
-    mp.objects.new('apa_prop_apa_cutscene_doorb', new mp.Vector3(400.98193359375, -996.643408203125, -99.00403594970703),
-        {
-            rotation: new mp.Vector3(0, 0, -90.26335144042969),
-            alpha: 255,
-            dimension: player.guid,
-        });
+            player.call('cerrarCef');
+            player.outputChatBox(`Aquí hay que hacer el tema del selector de los personajes`)
+            break;
 
-    colshapeSelector = mp.colshapes.newSphere(402.02166748046875, -1002.6541748046875, -99.00403594970703, 1, player.guid);
-    marcaSelector = mp.markers.new(0, new mp.Vector3(402.02166748046875, -1002.6541748046875, -99.60403594970703), 0.5,
-        {
-            color: [255, 243, 51, 255],
-            visible: true,
-            dimension: player.guid
-        });
-
-    labelSelector = mp.labels.new("Presiona la tecla ~b~'E' ~w~ para abrir el selector.", new mp.Vector3(402.02166748046875, -1002.6541748046875, -99.00403594970703),
-        {
-            los: false,
-            font: 4,
-            drawDistance: 100,
-            dimension: player.guid
-        });
-}
-
-function playerEnterColshapeHandler(player, shape) {
-    if (shape == colshapeSelector) {
-        console.log(`${player.name} entered the colshape`);
+        default:
+            break;
     }
-}
-
-mp.events.add("playerEnterColshape", playerEnterColshapeHandler);
+});
