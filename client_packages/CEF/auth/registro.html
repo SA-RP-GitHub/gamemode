@@ -15,26 +15,36 @@
 </head>
 
 <body>
-  <div class="login-container fadeInAnimation">
+  <div class="login-container fadeInAnimation" id="app">
     <div class="login-form">
       <h2><b>Creación de cuenta</b></h2>
-      <form>
+      <div class="alert alert-danger incorrect-info" role="alert" v-if="errorMensaje">
+        {{ errorMensaje }}
+      </div>
+      <form action="" method="post">
         <div class="form-group">
           <label for="username" class="sr-only">Usuario</label>
-          <input type="text" class="form-control" id="username" placeholder="Usuario" required>
+          <input type="text" class="form-control" id="username" v-model="usuario" placeholder="Usuario">
           <i class="icon fa fa-user"></i>
         </div>
         <div class="form-group">
           <label for="email" class="sr-only">Correo electrónico</label>
-          <input type="text" class="form-control" id="email" placeholder="Correo electrónico" required>
+          <input type="text" class="form-control" id="email" v-model="correo" placeholder="Correo electrónico">
           <i class="icon fa fa-envelope"></i>
         </div>
         <div class="form-group">
           <label for="password" class="sr-only">Contraseña</label>
-          <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+          <input type="password" class="form-control" id="password" v-model="contrasena" placeholder="Contraseña">
           <i class="icon fa fa-key"></i>
         </div>
-        <button type="submit" class="btn-login">Crear cuenta</button>
+
+        <div class="form-group">
+          <label for="password" class="sr-only">Repite la contraseña</label>
+          <input type="password" class="form-control" id="password" v-model="contrasena2" placeholder="Contraseña">
+          <i class="icon fa fa-key"></i>
+        </div>
+
+        <input type="button" value="Crear cuenta" class="btn-login" @click="registrar">
         <p class="mt-3 create-account"><a href="./acceder.html">¿Ya tienes una cuenta? Accede al servidor</a></p>
       </form>
     </div>
@@ -52,6 +62,39 @@
     </div>
 
   </div>
+
+  <script src="main.js"></script>
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        usuario: "",
+        correo: "",
+        contrasena: "",
+        contrasena2: "",
+        errorMensaje: "",
+      },
+      methods: {
+        registrar: async function () {
+          const obj = {
+            usuario: this.usuario.toLowerCase(),
+            correo: this.correo,
+            contrasena: this.contrasena,
+            contrasena2: this.contrasena2
+          }
+
+          mp.trigger('cliente:registrarCuenta', JSON.stringify(obj));
+        },
+
+        mostrarError(texto) {
+          this.errorMensaje = texto;
+          setTimeout(() => {
+            this.errorMensaje = null;
+          }, 5000);
+        },
+      }
+    })
+  </script>
 </body>
 
 </html>
